@@ -23,11 +23,7 @@ class TodoHomeState extends State<TodoHome> {
     }
   }
 
-  void _removeTodo(int index) {
-    setState(() {
-      _todos.removeAt(index);
-    });
-  }
+  void _removeTodo(int index) => setState(() => _todos.removeAt(index));
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +33,7 @@ class TodoHomeState extends State<TodoHome> {
       appBar: AppBar(
         title: const Text('To-Do List', style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
-          Switch(
-            value: isDark,
-            onChanged: widget.onThemeChanged,
-            activeColor: Colors.white,
-          ),
+          Switch(value: isDark, onChanged: widget.onThemeChanged, activeColor: Colors.white),
         ],
       ),
       body: Column(
@@ -53,10 +45,7 @@ class TodoHomeState extends State<TodoHome> {
                 Expanded(
                   child: TextField(
                     controller: _controller,
-                    decoration: const InputDecoration(
-                      labelText: 'New To-Do',
-                      border: OutlineInputBorder(),
-                    ),
+                    decoration: const InputDecoration(labelText: 'New To-Do', border: OutlineInputBorder()),
                     onSubmitted: (_) => _addTodo(),
                   ),
                 ),

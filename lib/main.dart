@@ -39,8 +39,30 @@ class _ToDoListState extends State<ToDoList> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'To-Do List',
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primarySwatch: Colors.grey,
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.amber,
+          foregroundColor: Colors.black87,
+        ),
+        textTheme: TextTheme(
+          bodyMedium: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: Colors.grey[900],
+        primaryColor: Colors.amber,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.black87,
+          foregroundColor: Colors.amber,
+        ),
+        textTheme: TextTheme(
+          bodyMedium: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70),
+        ),
+      ),
       themeMode: _themeMode,
       home: TodoHome(themeMode: _themeMode, onThemeChanged: _toggleTheme),
       debugShowCheckedModeBanner: false,
