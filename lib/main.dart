@@ -48,7 +48,7 @@ class _ToDoListState extends State<ToDoList> {
           foregroundColor: Colors.black87,
         ),
         textTheme: TextTheme(
-          bodyMedium: TextStyle(fontWeight: FontWeight.bold),
+          bodyMedium: TextStyle(fontWeight: FontWeight.bold, color: Colors.black87),
         ),
       ),
       darkTheme: ThemeData(
