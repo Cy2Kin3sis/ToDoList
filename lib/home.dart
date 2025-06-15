@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+//import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+
+import 'main.dart';
 
 
 class TodoItem {
@@ -176,6 +181,52 @@ class TodoHomeState extends State<TodoHome> {
       ),
     );
   }
+
+  Future<void> _scheduleNotification(String todoText, DateTime deadline) async {
+    final now = DateTime.now();
+
+    // 1 hour before
+    final oneHourBefore = deadline.subtract(const Duration(hours: 1));
+    if (oneHourBefore.isAfter(now)) {
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+        deadline.millisecondsSinceEpoch ~/ 1000, // unique id
+        'Upcoming To-Do',
+        'Your task "$todoText" is due in 1 hour!',
+        tz.TZDateTime.from(oneHourBefore, tz.local),
+        const NotificationDetails(
+          android: AndroidNotificationDetails('todo_channel', 'To-Do Notifications',
+            importance: Importance.high,
+            priority: Priority.high,
+            sound: RawResourceAndroidNotificationSound('notification'),
+          ),
+        ),
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime,
+      );
+    }
+
+    // At deadline
+    if (deadline.isAfter(now)) {
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+        deadline.millisecondsSinceEpoch ~/ 1000 + 1,
+        'To-Do Deadline',
+        'Time is up for: "$todoText"',
+        tz.TZDateTime.from(deadline, tz.local),
+        const NotificationDetails(
+          android: AndroidNotificationDetails('todo_channel', 'To-Do Notifications',
+            importance: Importance.max,
+            priority: Priority.max,
+            sound: RawResourceAndroidNotificationSound('notification'),
+          ),
+        ),
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime,
+      );
+    }
+  }
+
 
   void _toggleTodo(int index) {
     setState(() {
