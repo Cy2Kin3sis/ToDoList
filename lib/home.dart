@@ -60,7 +60,6 @@ class TodoHome extends StatefulWidget {
   @override
   TodoHomeState createState() => TodoHomeState();
 }
-
 class TodoHomeState extends State<TodoHome> {
   final List<TodoItem> _todos = [];
   final TextEditingController _controller = TextEditingController();
